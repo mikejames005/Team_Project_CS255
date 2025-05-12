@@ -70,6 +70,10 @@ bool Vehicle::operator=(const Vehicle& r) const
 	return false;
 }
 
+Vehicle::~Vehicle()
+{
+}
+
 ostream& operator<<(ostream& os, const Vehicle& v)
 {
 	os << "The brand: " << v.brand << endl;

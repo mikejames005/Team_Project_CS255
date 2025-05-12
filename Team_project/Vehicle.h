@@ -18,12 +18,12 @@ public:
 	void setBrand(string);
 	void setModel(string);
 	void setPrice(double);
-	virtual double fuelConsumption() = 0;
+	virtual void fuelConsumption() = 0;
 	virtual void displayInf();
 	bool operator < (const Vehicle&) const;
 	bool operator > (const Vehicle&) const;
 	bool operator = (const Vehicle&) const;
 	friend ostream& operator << (ostream&, const Vehicle&);
 	friend istream& operator >> (istream&, Vehicle&);
+	virtual ~Vehicle();
 };
-
