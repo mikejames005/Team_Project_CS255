@@ -29,3 +29,7 @@ void Car::displayInf()
 {
 	cout << "Car's information: " << this->getBrand() << " " << this->getModel() << " " << this->getPrice() << " " << color << endl;
 }
+
+Car::~Car()
+{
+}

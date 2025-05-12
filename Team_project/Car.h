@@ -15,5 +15,6 @@ public:
 	void setNumSeat(int);
 	void fuelConsumption() override;
 	void displayInf() override;
+	~Car() override;
 };
 
