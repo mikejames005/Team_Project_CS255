@@ -44,6 +44,10 @@ void Vehicle::setPrice(double g)
 	this->price = g;
 }
 
+void Vehicle::fuelConsumption()
+{
+}
+
 void Vehicle::displayInf()
 {
 	cout <<"Vehicle's Information:" << brand << " " << model << " " << price << endl;

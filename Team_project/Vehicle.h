@@ -18,7 +18,7 @@ public:
 	void setBrand(string);
 	void setModel(string);
 	void setPrice(double);
-	virtual void fuelConsumption() = 0;
+	virtual void fuelConsumption();
 	virtual void displayInf();
 	bool operator < (const Vehicle&) const;
 	bool operator > (const Vehicle&) const;
