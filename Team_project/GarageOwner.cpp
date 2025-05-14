@@ -12,24 +12,10 @@ GarageOwner::GarageOwner(string name, int size) {
 string GarageOwner::getName() const {
     return this->name;
 }
-/* main example:
-GarageOwner owner("Dat");
-Vehicle* v1 = new Car("Lambo", "New", 2000, "Black", 4);
-owner.addVehicles(v1);*/
+
 void GarageOwner::addVehicles(Vehicle* v) {
-    // add more capacity when needed 
-    if (size >= capacity) {
-        capacity *= 2; // double space
-        // copy old capacity date to new one
-        Vehicle** newArray = new Vehicle * [capacity];
-        for (int i = 0; i < size; i++) {
-            newArray[i] = vehicles[i];
-        }
-        delete[] vehicles;
-        vehicles = newArray; // point to new array
-    }
-    vehicles[size] = v; // add to next slot
-    size++; // empty slot for future vehicles being added
+    vehicles[size] = v;
+    size++;
 }
 
 void GarageOwner::showGarage() const {

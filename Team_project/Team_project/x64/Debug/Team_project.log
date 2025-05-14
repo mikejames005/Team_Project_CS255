@@ -1,10 +1,5 @@
-﻿  Car.cpp
-  Customer.cpp
-  GarageOwner.cpp
-C:\HUST\Team_Project_CS255\Team_Project_CS255\Team_project\GarageOwner.cpp(21,17): error C2065: 'capacity': undeclared identifier
-C:\HUST\Team_Project_CS255\Team_Project_CS255\Team_project\GarageOwner.cpp(22,9): error C2065: 'capacity': undeclared identifier
-C:\HUST\Team_Project_CS255\Team_Project_CS255\Team_project\GarageOwner.cpp(24,45): error C2065: 'capacity': undeclared identifier
+﻿  GarageOwner.cpp
   Main.cpp
-  Motorbike.cpp
   Vehicle.cpp
   Generating Code...
+  Team_project.vcxproj -> C:\HUST\Team_Project_CS255\Team_Project_CS255\Team_project\x64\Debug\Team_project.exe
