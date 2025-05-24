@@ -1,142 +1,72 @@
 #include "GarageOwner.h"
-#include "Car.h"
-#include "Motorbike.h"
 #include <iostream>
-#include <algorithm>
-#include <typeinfo>
-
+#include <string>
 using namespace std;
 
-GarageOwner::GarageOwner(string name)
-    : name(name), vehicleCount(0), capacity(1000) {
-    inventory = new Vehicle*[capacity];
-    for (int i = 0; i < capacity; i++) {
-        inventory[i] = nullptr;
-    }
-}
-
-GarageOwner::~GarageOwner() {
-    for (int i = 0; i < vehicleCount; i++) {
-        delete inventory[i];
-    }
-    delete[] inventory;
+GarageOwner::GarageOwner(string name, int size) {
+    this->name = name;
+    this->size = size; // current number of vehicles
+    this->vehicles = new Vehicle* [100];
 }
 
 string GarageOwner::getName() const {
-    return name;
+    return this->name;
 }
 
-void GarageOwner::setName(const string& name) {
-    this->name = name;
+void GarageOwner::addVehicles(Vehicle* v) {
+    vehicles[size] = v;
+    size++;
 }
 
-int GarageOwner::getVehicleCount() const {
-    return vehicleCount;
-}
-
-bool GarageOwner::addVehicle(Vehicle* vehicle) {
-    inventory[vehicleCount] = vehicle;
-    vehicleCount++;
-    cout << "Vehicle added to inventory successfully!" << endl;
-    return true;
-}
-
-bool GarageOwner::removeVehicle(int index) {
-    if (index < 0 || index >= vehicleCount) {
-        cout << "Invalid vehicle index!" << endl;
-        return false;
+void GarageOwner::showGarage() const {
+    cout << "List of available vehicles" << endl;
+    if (size == 0) {
+        cout << "list is empty!" << endl;
+        return;
     }
-    
-    for (int i = index; i < vehicleCount - 1; i++) {
-        inventory[i] = inventory[i + 1];
+    for (int i = 0; i < size; i++) {
+        cout << i << ". ";
+        vehicles[i]->displayInf();
+        // 1. xyz
     }
-    
-    inventory[vehicleCount - 1] = nullptr;
-    vehicleCount--;
-    cout << "Vehicle removed from inventory." << endl;
-    return true;
 }
+/* main idea for selling:
+List of availble vehicles:
+a
+b
+c
 
-Vehicle* GarageOwner::getVehicle(int index) const {
-    if (index < 0 || index >= vehicleCount) {
+Enter which to buy:
+
+Vehicle* vehicleBought = sellVehicle(choice)
+*/
+Vehicle* GarageOwner::sellVehicle(int index) {
+    if (index < 0 || index >= size) {
+        cout << "Invalid" << endl;
         return nullptr;
     }
-    return inventory[index];
+    Vehicle* vehicleSold = vehicles[index]; // sold vehicle assigned to an existing vehicle pointer
+    for (int i = index; i < size - 1; i++) {
+        vehicles[i] = vehicles[i + 1];
+    }
+    /* when removed, the list leaves empty hole, this is to fix that
+    example:
+    before:             after:
+    0. A                vehicles 1 = vehicles 2
+    1(sold). B -> empty  0. A | 1. C | 2. C | 3. D | 4. E
+    2. C                vehicles 2 = vehicles 3
+    3. D                0. A | 1. C | 2. D | 3. D | 4. E
+    4. E.               last position
+                        0. A | 1. C | 2. D | 3. E | 4. EMPTY
+     */
+     // clear empty space
+    size--;
+    return vehicleSold; // for Customer class to add to bought list
 }
-
-void GarageOwner::displayInventory() const {
-    if (vehicleCount == 0) {
-        cout << name << "'s garage has no vehicles in inventory." << endl;
-        return;
+int GarageOwner::getVehicleCount() { return size; }
+GarageOwner::~GarageOwner() {
+    for (int i = 0; i < size; i++) {
+        delete vehicles[i];
     }
-    
-    cout << "===== " << name << "'s Garage Inventory =====" << endl;
-    
-    cout << "\n----- Cars -----" << endl;
-    int carCount = 0;
-    for (int i = 0; i < vehicleCount; i++) {
-        Car* car = dynamic_cast<Car*>(inventory[i]);
-        if (car) {
-            cout << "\nVehicle " << (i + 1) << ":" << endl;
-            car->displayInf();
-            carCount++;
-        }
-    }
-    
-    if (carCount == 0) {
-        cout << "No cars in inventory." << endl;
-    }
-    
-    cout << "\n----- Motorbikes -----" << endl;
-    int motorbikeCount = 0;
-    for (int i = 0; i < vehicleCount; i++) {
-        Motorbike* motorbike = dynamic_cast<Motorbike*>(inventory[i]);
-        if (motorbike) {
-            cout << "\nVehicle " << (i + 1) << ":" << endl;
-            motorbike->displayInf();
-            motorbikeCount++;
-        }
-    }
-    
-    if (motorbikeCount == 0) {
-        cout << "No motorbikes in inventory." << endl;
-    }
-    
-    cout << "=====================================" << endl;
+    delete[] vehicles;
 }
-
-void GarageOwner::sortByPrice() {
-    if (vehicleCount <= 1) {
-        return;
-    }
-    
-    for (int i = 0; i < vehicleCount - 1; i++) {
-        for (int j = 0; j < vehicleCount - i - 1; j++) {
-            if (inventory[j]->getPrice() > inventory[j + 1]->getPrice()) {
-                Vehicle* temp = inventory[j];
-                inventory[j] = inventory[j + 1];
-                inventory[j + 1] = temp;
-            }
-        }
-    }
-    
-    cout << "Inventory sorted by price (ascending)." << endl;
-}
-
-void GarageOwner::sortByModel() {
-    if (vehicleCount <= 1) {
-        return;
-    }
-    
-    for (int i = 0; i < vehicleCount - 1; i++) {
-        for (int j = 0; j < vehicleCount - i - 1; j++) {
-            if (inventory[j]->getModel() > inventory[j + 1]->getModel()) {
-                Vehicle* temp = inventory[j];
-                inventory[j] = inventory[j + 1];
-                inventory[j + 1] = temp;
-            }
-        }
-    }
-    
-    cout << "Inventory sorted by model (alphabetically)." << endl;
-} 

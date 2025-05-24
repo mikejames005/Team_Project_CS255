@@ -1,30 +1,20 @@
-#ifndef GARAGE_OWNER_H
-#define GARAGE_OWNER_H
-
+#pragma once
+#include <iostream>
 #include "Vehicle.h"
 #include <string>
+using namespace std;
 
 class GarageOwner {
 private:
     string name;
-    Vehicle** inventory;
-    int vehicleCount;
-    int capacity;
-
+    int size; // number of vehicles
 public:
-    GarageOwner(string name);
-    ~GarageOwner();
-
+    Vehicle** vehicles; // pointer to pointer to store vehicles in Vehicle 
+    GarageOwner(string, int);
     string getName() const;
-    void setName(const string& name);
-    int getVehicleCount() const;
-
-    bool addVehicle(Vehicle* vehicle);
-    bool removeVehicle(int index);
-    Vehicle* getVehicle(int index) const;
-    void displayInventory() const;
-    void sortByPrice();
-    void sortByModel();
+    void addVehicles(Vehicle* v); // add vehicle pointer to the list
+    void showGarage() const;
+    Vehicle* sellVehicle(int index); // point to where to delete
+    int getVehicleCount(); // check if Garage is empty or notnot
+    ~GarageOwner(); // clear memories
 };
-
-#endif // GARAGE_OWNER_H 

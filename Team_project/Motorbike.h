@@ -15,6 +15,7 @@ public:
 	void setSpeed(double);
 	void fuelConsumption() override;
 	void displayInf() override;
+	friend ostream& operator << (ostream&, Motorbike&);
 	~Motorbike();
 };
 

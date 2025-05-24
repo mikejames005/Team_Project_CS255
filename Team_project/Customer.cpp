@@ -1,86 +1,75 @@
 #include "Customer.h"
-#include "Car.h"
-#include "Motorbike.h"
 #include <iostream>
-
+#include <string>
 using namespace std;
 
-Customer::Customer(string name, int contact)
-    : name(name), contact(contact), vehicleCount(0), capacity(100) {
-    vehicles = new Vehicle*[capacity];
-    for (int i = 0; i < capacity; i++) {
-        vehicles[i] = nullptr;
-    }
+Customer::Customer(string name) {
+    this->name = name;
+    this->size = 0;
+    this->capacity = 10;
+    this->bought = new Vehicle * [capacity];
 }
-
-Customer::~Customer() {
-    delete[] vehicles;
-}
-
 string Customer::getName() const {
     return name;
 }
-
-int Customer::getContact() const {
-    return contact;
-}
-
-void Customer::setName(const string& name) {
-    this->name = name;
-}
-
-void Customer::setContact(int contact) {
-    this->contact = contact;
-}
-
-int Customer::getVehicleCount() const {
-    return vehicleCount;
-}
-
-bool Customer::purchaseVehicle(Vehicle* vehicle) {
-    vehicles[vehicleCount] = vehicle;
-    vehicleCount++;
-    cout << "Vehicle purchased successfully!" << endl;
-    return true;
-}
-
-void Customer::displayPurchasedVehicles() const {
-    if (vehicleCount == 0) {
-        cout << name << " has not purchased any vehicles yet." << endl;
+void Customer::buyVehicle(Vehicle* v) {
+    // check valid 
+    if (v == nullptr) {
+        cout << "Invalid" << endl;
         return;
     }
-    
-    cout << "===== " << name << "'s Purchased Vehicles =====" << endl;
-    
-    cout << "\n----- Cars -----" << endl;
-    int carCount = 0;
-    for (int i = 0; i < vehicleCount; i++) {
-        Car* car = dynamic_cast<Car*>(vehicles[i]);
-        if (car) {
-            cout << "\nVehicle " << (i + 1) << ":" << endl;
-            car->displayInf();
-            carCount++;
+    // same with garage owner
+    if (size >= capacity) {
+        capacity *= 2;
+        Vehicle** newArray = new Vehicle * [capacity];
+        for (int i = 0; i < size; i++) {
+            newArray[i] = bought[i];
         }
+        delete[] bought;
+        bought = newArray;
     }
-    
-    if (carCount == 0) {
-        cout << "No cars purchased." << endl;
+    bought[size] = v;
+    size++;
+    cout << name <<"bought: ";
+    v->displayInf();
+    // same thing with garage owner cpp
+}
+
+void Customer::boughtList() const {
+    cout << name << "'s purchased vehicles (" << size << "):" << endl;
+    if (size == 0) {
+        cout << "  [None]" << endl;
+        return;
     }
-    
-    cout << "\n----- Motorbikes -----" << endl;
-    int motorbikeCount = 0;
-    for (int i = 0; i < vehicleCount; i++) {
-        Motorbike* motorbike = dynamic_cast<Motorbike*>(vehicles[i]);
-        if (motorbike) {
-            cout << "\nVehicle " << (i + 1) << ":" << endl;
-            motorbike->displayInf();
-            motorbikeCount++;
-        }
+    for (int i = 0; i < size; ++i) {
+        cout << "  [" << i << "] ";
+        bought[i]->displayInf();
+        cout << endl;
     }
-    
-    if (motorbikeCount == 0) {
-        cout << "No motorbikes purchased." << endl;
+}
+
+void Customer::comparePrice(Vehicle* v1, Vehicle* v2) {
+    if (!v1 || !v2) return;
+    cout << "Comparing prices:\n";
+    if (v1 < v2) {
+        cout << "  " << v1->getModel() << " is cheaper than " << v2->getModel() << endl;
+    } else if (v1 > v2) {
+        cout << "  " << v1->getModel() << " is more expensive than " << v2->getModel() << endl;
+    } else {
+        cout << "  Both have the same price." << endl;
     }
-    
-    cout << "==========================================" << endl;
-} 
+}
+
+Vehicle* Customer::getBought(int index) const {
+    if (index < 0 || index >= size) return nullptr;
+    return bought[index];
+}
+
+int Customer::getSize()
+{
+    return this->size;
+}
+
+Customer::~Customer(){
+    delete[] bought;
+}

@@ -33,3 +33,13 @@ void Motorbike::displayInf()
 Motorbike::~Motorbike()
 {
 }
+
+ostream& operator<<(ostream& out, Motorbike& bike)
+{
+    out << "The brand: " << bike.getBrand() << endl;
+    out << "The model: " << bike.getModel() << endl;
+    out << "The price: " << bike.getPrice() << endl;
+    out << "The color: " << bike.engineType << endl;
+    out << "Number of seats: " << bike.maxSpeed << endl;
+    return out;
+}

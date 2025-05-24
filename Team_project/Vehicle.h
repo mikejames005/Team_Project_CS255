@@ -5,7 +5,7 @@
 using namespace std;
 class Vehicle
 {
-private:
+protected:
 	string brand;
 	double price;
 	string model;
@@ -23,7 +23,7 @@ public:
 	bool operator < (const Vehicle&) const;
 	bool operator > (const Vehicle&) const;
 	bool operator = (const Vehicle&) const;
-	friend ostream& operator << (ostream&, const Vehicle&);
-	friend istream& operator >> (istream&, Vehicle&);
+	bool operator < (double) const;
 	virtual ~Vehicle();
 };
+

@@ -1,29 +1,21 @@
-#ifndef CUSTOMER_H
-#define CUSTOMER_H
-
-#include "Vehicle.h"
+#pragma once
+#include <iostream>
 #include <string>
+#include "Vehicle.h"
+using namespace std;
 
 class Customer {
 private:
     string name;
-    int contact;
-    Vehicle** vehicles;
-    int vehicleCount;
-    int capacity;
-
+    Vehicle** bought;
+    int size, capacity;
 public:
-    Customer(string name, int contact);
-    ~Customer();
-
+    Customer(string name);
     string getName() const;
-    int getContact() const;
-    void setName(const string& name);
-    void setContact(int contact);
-
-    bool purchaseVehicle(Vehicle* vehicle);
-    void displayPurchasedVehicles() const;
-    int getVehicleCount() const;
+    void buyVehicle(Vehicle* v);
+    void boughtList() const;
+    void comparePrice(Vehicle* v1, Vehicle* v2);
+    Vehicle* getBought(int) const;
+    int getSize();
+    ~Customer();
 };
-
-#endif // CUSTOMER_H 

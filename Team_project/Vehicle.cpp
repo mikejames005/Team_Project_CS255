@@ -74,22 +74,15 @@ bool Vehicle::operator=(const Vehicle& r) const
 	return false;
 }
 
+bool Vehicle::operator<(double budget) const
+{
+	if (this->price < budget) {
+		return true;
+	}
+	return false;
+}
+
 Vehicle::~Vehicle()
 {
 }
 
-ostream& operator<<(ostream& os, const Vehicle& v)
-{
-	os << "The brand: " << v.brand << endl;
-	os << "The model: " << v.model << endl;
-	os << "The price: " << v.price << endl;
-	return os;
-}
-
-istream& operator>>(istream& is, Vehicle& t)
-{
-	is >> t.brand;
-	is >> t.model;
-	is >> t.price;
-	return is;
-}

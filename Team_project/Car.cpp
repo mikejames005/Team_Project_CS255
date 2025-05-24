@@ -33,3 +33,13 @@ void Car::displayInf()
 Car::~Car()
 {
 }
+
+ostream& operator<<(ostream& os, Car& car)
+{
+	os << "The brand: " << car.getBrand() << endl;
+	os << "The model: " << car.getModel() << endl;
+	os << "The price: " << car.getPrice() << endl;
+	os << "The color: " << car.color << endl;
+	os << "Number of seats: " << car.numSeat << endl;
+	return os;
+}
